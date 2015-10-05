@@ -13,7 +13,7 @@ async.waterfall([
 		count(json, callback);
 	},
 	function(json, callback) {
-		console.log(json);
+		console.log(JSON.stringify(json));
 		callback();
 	}
 ], function(err, result) {

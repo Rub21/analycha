@@ -3,7 +3,6 @@ var parser = require('xml2json');
 var request = require('request');
 var async = require('async');
 
-
 var options = {
 	object: true,
 	reversible: false,
@@ -12,7 +11,6 @@ var options = {
 	trim: true,
 	arrayNotation: false
 };
-
 
 module.exports = function(json, cb) {
 	var result = [];
@@ -24,7 +22,7 @@ module.exports = function(json, cb) {
 			if (!error && response.statusCode == 200) {
 				var json = parser.toJson(body, options);
 				//console.log(json);
-				task.node.history = json;
+				task.node.history = json.osm.node;
 				result.push(task);
 				callback();
 			} else {
@@ -39,8 +37,6 @@ module.exports = function(json, cb) {
 		//empieza en aqui
 	_.each(json.osmChange.modify, function(val) {
 		if (val.node !== undefined) {
-
-			console.log(val.node.id);
 			q.push(val)
 		}
 	});
