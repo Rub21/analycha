@@ -1,5 +1,5 @@
-var request = require('./req');
-var count = require('./count');
+var changeset = require('./changeset');
+var history = require('./history');
 var argv = require('minimist')(process.argv.slice(2));
 var async = require('async');
 
@@ -7,10 +7,10 @@ var url = 'https://www.openstreetmap.org/api/0.6/changeset/' + argv.id + '/downl
 
 async.waterfall([
 	function(callback) {
-		request(url, callback);
+		changeset(url, callback);
 	},
 	function(json, callback) {
-		count(json, callback);
+		history(json, callback);
 	},
 	function(json, callback) {
 		console.log(JSON.stringify(json));
