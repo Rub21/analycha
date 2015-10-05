@@ -17,7 +17,7 @@ module.exports = function(url, cb) {
 			var json = parser.toJson(body, options);
 			cb(null,json);
 		} else {
-			cb(error);
+			cb(null,error);
 		}
 	});
 
