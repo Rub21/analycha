@@ -13,10 +13,10 @@ module.exports = function(obj, id_changeset, cb) {
 	var num_nodes = 0;
 	//Json and filter
 	_.each(obj, function(val) {
-		count.node_total++;
 		var fc = turf.featurecollection();
 
 		if (val.type == 'node' && val.status == 'modify') {
+			count.node_total++;
 			count.node_modify++;
 			var h = val.history.reverse();
 			var p1 = turf.point([h[0].lon, h[0].lat]);
@@ -41,9 +41,11 @@ module.exports = function(obj, id_changeset, cb) {
 			}
 		}
 		if (val.type == 'node' && val.status == 'create') {
+			count.node_total++;
 			count.node_create++;
 		}
 		if (val.type == 'node' && val.status == 'delete') {
+			count.node_total++;
 			count.node_delete++;
 
 		}
