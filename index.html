@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset=utf-8 />
-    <title>Load GeoJSON</title>
+    <title>Analize OSM Changeset</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
@@ -34,12 +34,28 @@
       });
     };
     getJSON(document.URL.split("?json=")[1]).then(function(data) {
-      L.mapbox.featureLayer(data, {
+      // L.mapbox.featureLayer(data, {
+      //   pointToLayer: function(feature, latlon) {
+      //     return L.circleMarker(latlon, {
+      //       radius: 2,
+      //       color: feature.properties.color
+      //     });
+      //   }
+      // }).addTo(map);
+      L.geoJson(data, {
         pointToLayer: function(feature, latlon) {
           return L.circleMarker(latlon, {
             radius: 2,
             color: feature.properties.color
           });
+        },
+        onEachFeature: function(feature, layer) {
+          if (feature.properties.distance !== undefined) {
+            layer.bindPopup("Version : " + feature.properties.version + "<br> Distance :" + feature.properties.distance);
+          } else {
+            layer.bindPopup("Version : " + feature.properties.version);
+          }
+
         }
       }).addTo(map);
     }, function(status) {

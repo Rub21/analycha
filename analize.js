@@ -14,8 +14,11 @@ module.exports = function(obj, id_changeset, cb) {
 			p1.properties.color = "#00f"
 			p2.properties.color = "#999"
 			var units = "kilometers";
+			//TODO, nned to improve, for now th easy way.
 			var distance = (turf.distance(p1, p2, units) * 1000).toFixed(2) + "m";
-			p1.properties.title = distance;
+			p1.properties.distance = distance;
+			p1.properties.version = h[0].version;
+			p2.properties.version = h[1].version;
 			changes.features.push(p1);
 			changes.features.push(p2);
 			fs.writeFile(id_changeset + '.json', JSON.stringify(changes));
