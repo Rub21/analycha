@@ -22,8 +22,7 @@ module.exports = function(obj, id_changeset, cb) {
 			var history = val.history;
 			var p1, p2;
 			//p1 = actual node
-			//p2 previous node
-
+			//p2 = previous node
 			for (var i = 0; i < history.length; i++) {
 				if (history[i].changeset === id_changeset) {
 					p1 = turf.point([history[i].lon, history[i].lat]);
@@ -58,14 +57,26 @@ module.exports = function(obj, id_changeset, cb) {
 
 		}
 	});
-
+	//sort nodes
+	var c_nodes = [];
+	_.each(count_distances, function(val, key) {
+		c_nodes.push({
+			meters: key,
+			num: val
+		});
+	});
+	c_nodes = _.sortBy(c_nodes, function(val) {
+		return val.num;
+	});
 	fs.writeFile(id_changeset + '.json', JSON.stringify(changes));
 	console.log("Number of nodes");
-	console.log("===============");
+	console.log("===============\n");
 	console.log("Nodes : " + JSON.stringify(count));
-	console.log("Number of nodes were updated at same distance");
-	console.log("=============================================");
-	console.log(count_distances);
+	console.log("\n\nNumber of nodes were updated at same distance");
+	console.log("=============================================\n");
+	console.log(c_nodes.reverse());
+
+	//console.log(arr)
 	cb();
 
 }
