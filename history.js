@@ -28,19 +28,20 @@ module.exports = function(json, cb) {
 	for (var i = 0; i < status.length; i++) {
 		_.each(json.osmChange[status[i]], function(val) {
 			val.status = status[i];
-			if (val.node !== undefined) {
+			if (val.node !== undefined) {//filter just nodes
 				val.url = config.api + "node/" + val.node.id + "/history";
 				val.type = "node";
 				q.push(val)
-			} else if (val.way !== undefined) {
-				val.url = config.api + "way/" + val.way.id + "/history";
-				val.type = "way";
-				q.push(val)
-			} else if (val.relation !== undefined) {
-				val.url = config.api + "relation/" + val.relation.id + "/history";
-				val.type = "relation";
-				q.push(val)
-			}
+			} 
+			// else if (val.way !== undefined) {
+			// 	val.url = config.api + "way/" + val.way.id + "/history";
+			// 	val.type = "way";
+			// 	q.push(val)
+			// } else if (val.relation !== undefined) {
+			// 	val.url = config.api + "relation/" + val.relation.id + "/history";
+			// 	val.type = "relation";
+			// 	q.push(val)
+			// }
 		});
 	};
 
