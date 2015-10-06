@@ -42,7 +42,6 @@
       //     });
       //   }
       // }).addTo(map);
-
       L.geoJson(data, {
         pointToLayer: function(feature, latlon) {
           return L.circleMarker(latlon, {
@@ -52,9 +51,9 @@
         },
         onEachFeature: function(feature, layer) {
           if (feature.properties.distance !== undefined) {
-            layer.bindPopup("Version : " + feature.properties.version + "<br> Distance :" + feature.properties.distance);
+            layer.bindPopup("Id : "+ feature.properties.id+"<br> Version : " + feature.properties.version + "<br> Distance :" + feature.properties.distance);
           } else {
-            layer.bindPopup("Version : " + feature.properties.version);
+            layer.bindPopup("Id : "+ feature.properties.id+"<br> Version : " + feature.properties.version);
           }
 
         }

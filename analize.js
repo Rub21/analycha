@@ -30,6 +30,8 @@ module.exports = function(obj, id_changeset, cb) {
 					//version
 					p1.properties.version = history[i].version;
 					p2.properties.version = history[i - 1].version;
+					p1.properties.id = history[i].id;
+					p2.properties.id = history[i - 1].id;
 				}
 			}
 			p1.properties.color = "#00f"
