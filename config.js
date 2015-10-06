@@ -1,4 +1,5 @@
 module.exports = {
+	api: "https://www.openstreetmap.org/api/0.6/",
 	options: { //for json
 		object: true,
 		reversible: false,
@@ -7,5 +8,5 @@ module.exports = {
 		trim: true,
 		arrayNotation: false
 	},
-	N : 500 // numero de tareas para ejecutar en la pila
+	N: 500 // numero de tareas para ejecutar en la pila
 }

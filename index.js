@@ -1,9 +1,12 @@
 var changeset = require('./changeset');
 var history = require('./history');
 var analize = require('./analize');
+var config = require('./config');
 var argv = require('minimist')(process.argv.slice(2));
 var async = require('async');
-var url = 'https://www.openstreetmap.org/api/0.6/changeset/' + argv.id + '/download';
+
+var url = config.api + 'changeset/' + argv.idchangest + '/download';
+
 async.waterfall([
 	function(callback) {
 		changeset(url, callback);
@@ -12,7 +15,7 @@ async.waterfall([
 		history(json, callback);
 	},
 	function(json, callback) {
-		analize(json, argv.id ,callback)
+		analize(json, argv.idchangest, callback)
 	}
 ], function(err, result) {
 	console.log("done")

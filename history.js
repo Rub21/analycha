@@ -3,10 +3,7 @@ var parser = require('xml2json');
 var request = require('request');
 var async = require('async');
 var config = require('./config');
-
 var status = ['create', 'modify', 'delete'];
-var url_base = "http://www.openstreetmap.org/api/0.6/node/";
-
 module.exports = function(json, cb) {
 	var result = [];
 	//segundo paso
@@ -32,15 +29,15 @@ module.exports = function(json, cb) {
 		_.each(json.osmChange[status[i]], function(val) {
 			val.status = status[i];
 			if (val.node !== undefined) {
-				val.url = url_base + val.node.id + "/history";
+				val.url = config.api + "node/" + val.node.id + "/history";
 				val.type = "node";
 				q.push(val)
 			} else if (val.way !== undefined) {
-				val.url = url_base + val.way.id + "/history";
+				val.url = config.api + "way/" + val.way.id + "/history";
 				val.type = "way";
 				q.push(val)
 			} else if (val.relation !== undefined) {
-				val.url = url_base + val.relation.id + "/history";
+				val.url = config.api + "relation/" + val.relation.id + "/history";
 				val.type = "relation";
 				q.push(val)
 			}
