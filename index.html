@@ -6,6 +6,7 @@
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-hash/v0.2.1/leaflet-hash.js'></script>
     <link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
     <style>
     body { margin:0; padding:0; }
@@ -18,6 +19,7 @@
     L.mapbox.accessToken = 'pk.eyJ1IjoicnViZW4iLCJhIjoiYlBrdkpRWSJ9.JgDDxJkvDn3us36aGzR6vg';
     var map = L.mapbox.map('map', 'ruben.ea0f35c8')
       .setView([0, 0], 2);
+    var hash = L.hash(map);
     var getJSON = function(url) {
       return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
@@ -44,16 +46,16 @@
         },
         onEachFeature: function(feature, layer) {
           if (feature.properties.distance !== undefined) {
-            layer.bindPopup("Id : "+ feature.properties.id+"<br> Version : " + feature.properties.version + "<br> Distance :" + feature.properties.distance);
+            layer.bindPopup("Id : " + feature.properties.id + "<br> Version : " + feature.properties.version + "<br> Distance :" + feature.properties.distance);
           } else {
-            layer.bindPopup("Id : "+ feature.properties.id+"<br> Version : " + feature.properties.version);
+            layer.bindPopup("Id : " + feature.properties.id + "<br> Version : " + feature.properties.version);
           }
         }
       }).addTo(map);
       document.getElementById("map").classList.remove('loading');
     }, function(status) {
       alert('Something went wrong. Load again your geojson');
-       document.getElementById("map").classList.remove('loading');
+      document.getElementById("map").classList.remove('loading');
     });
     </script>
   </body>
