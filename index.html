@@ -17,9 +17,7 @@
     <div id='map' class='loading'></div>
     <script>
     L.mapbox.accessToken = 'pk.eyJ1IjoicnViZW4iLCJhIjoiYlBrdkpRWSJ9.JgDDxJkvDn3us36aGzR6vg';
-    var map = L.mapbox.map('map', 'ruben.ea0f35c8')
-      .setView([0, 0], 2);
-    var hash = L.hash(map);
+    var map = L.mapbox.map('map', 'ruben.ea0f35c8');
     var getJSON = function(url) {
       return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
