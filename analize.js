@@ -26,8 +26,8 @@ module.exports = function(obj, id_changeset, cb) {
 			p2.properties.color = "#999"
 			var units = "kilometers";
 			//TODO, need to improve, for now th easy way.
-			var distance = (turf.distance(p1, p2, units) * 1000).toFixed(2) + "m";
-			p1.properties.distance = distance;
+			var distance = (turf.distance(p1, p2, units) * 1000).toFixed(2);
+			p1.properties.distance = distance + "m";
 			p1.properties.version = h[0].version;
 			p2.properties.version = h[1].version;
 
