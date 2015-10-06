@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <title>Load GeoJSON</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
+    <style>
+    body { margin:0; padding:0; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+  </head>
+  <body>
+    <div id='map'></div>
+    <script>
+    L.mapbox.accessToken = 'pk.eyJ1IjoicnViZW4iLCJhIjoiYlBrdkpRWSJ9.JgDDxJkvDn3us36aGzR6vg';
+    var map = L.mapbox.map('map', 'ruben.ea0f35c8')
+      .setView([0, 0], 2);
+    var getJSON = function(url) {
+      return new Promise(function(resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('get', url, true);
+        xhr.responseType = 'json';
+        xhr.onload = function() {
+          var status = xhr.status;
+          if (status == 200) {
+            resolve(xhr.response);
+          } else {
+            reject(status);
+          }
+        };
+        xhr.send();
+      });
+    };
+    getJSON(document.URL.split("?json=")[1]).then(function(data) {
+      L.mapbox.featureLayer(data, {
+        pointToLayer: function(feature, latlon) {
+          return L.circleMarker(latlon, {
+            radius: 2,
+            color: feature.properties.color
+          });
+        }
+      }).addTo(map);
+    }, function(status) {
+      alert('Something went wrong. Load again your geojson');
+    });
+    </script>
+  </body>
+</html>
