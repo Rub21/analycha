@@ -19,22 +19,28 @@ module.exports = function(obj, id_changeset, cb) {
 		if (val.type == 'node' && val.status == 'modify') {
 			count.node_total++;
 			count.node_modify++;
-			var h = val.history.reverse();
-			var p1 = turf.point([h[0].lon, h[0].lat]);
-			var p2 = turf.point([h[1].lon, h[1].lat]);
+			var history = val.history;
+			var p1, p2;
+			//p1 = actual node
+			//p2 previous node
 
+			for (var i = 0; i < history.length; i++) {
+				if (history[i].changeset === id_changeset) {
+					p1 = turf.point([history[i].lon, history[i].lat]);
+					p2 = turf.point([history[i - 1].lon, history[i - 1].lat]);
+					//version
+					p1.properties.version = history[i].version;
+					p2.properties.version = history[i - 1].version;
+				}
+			}
 			p1.properties.color = "#00f"
 			p2.properties.color = "#999"
 			var units = "kilometers";
 			//TODO, need to improve, for now th easy way.
 			var distance = (turf.distance(p1, p2, units) * 1000).toFixed(2) + "m";
-			p1.properties.distance = distance;
-			p1.properties.version = h[0].version;
-			p2.properties.version = h[1].version;
-			if (p1.geometry.coordinates[1] !== null && p2.geometry.coordinates[1] !== null) {
-				changes.features.push(p1);
-				changes.features.push(p2);
-			}
+			p1.properties.distance = distance; //cuanto de distacia ha sido movido de la version anterior
+			changes.features.push(p1);
+			changes.features.push(p2);
 			//here will count how many nodes has same distances from previous version to actual version
 			if (count_distances[distance] !== undefined) {
 				count_distances[distance] = count_distances[distance] + 1;
