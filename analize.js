@@ -4,10 +4,20 @@ var fs = require('fs');
 module.exports = function(obj, id_changeset, cb) {
 	var changes = turf.featurecollection([]);
 	var count_distances = {};
+	var count = {
+		'node_total': 0,
+		'node_create': 0,
+		'node_modify': 0,
+		'node_delete': 0
+	}
+	var num_nodes = 0;
 	//Json and filter
 	_.each(obj, function(val) {
+		count.node_total++;
 		var fc = turf.featurecollection();
+
 		if (val.type == 'node' && val.status == 'modify') {
+			count.node_modify++;
 			var h = val.history.reverse();
 			var p1 = turf.point([h[0].lon, h[0].lat]);
 			var p2 = turf.point([h[1].lon, h[1].lat]);
@@ -19,8 +29,10 @@ module.exports = function(obj, id_changeset, cb) {
 			p1.properties.distance = distance;
 			p1.properties.version = h[0].version;
 			p2.properties.version = h[1].version;
-			changes.features.push(p1);
-			changes.features.push(p2);
+			if (!isNaN(NaN)) {
+				changes.features.push(p1);
+				changes.features.push(p2);
+			}
 			//here will count how many nodes has same distances from previous version to actual version
 			if (count_distances[distance] !== undefined) {
 				count_distances[distance] = count_distances[distance] + 1;
@@ -28,8 +40,18 @@ module.exports = function(obj, id_changeset, cb) {
 				count_distances[distance] = 1;
 			}
 		}
+		if (val.type == 'node' && val.status == 'create') {
+			count.node_create++;
+		}
+		if (val.type == 'node' && val.status == 'delete') {
+			count.node_delete++;
+
+		}
 	});
 	fs.writeFile(id_changeset + '.json', JSON.stringify(changes));
+	console.log("Number of nodes");
+	console.log("===============");
+	console.log("Nodes : " + JSON.stringify(count));
 	console.log("Number of nodes were updated at same distance");
 	console.log("=============================================");
 	console.log(count_distances);

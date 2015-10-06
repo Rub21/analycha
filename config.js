@@ -8,5 +8,5 @@ module.exports = {
 		trim: true,
 		arrayNotation: false
 	},
-	N: 100 // numero de tareas para ejecutar en la pila
+	N: 50 // numero de tareas para ejecutar en la pila
 }
