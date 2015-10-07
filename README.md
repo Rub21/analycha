@@ -6,7 +6,7 @@
 git clone https://github.com/Rub21/analycha.git
 cd analycha/
 npm install
-node index.js --idchangest 34439303
+node index.js --idchangeset 34439303
 
 ```
 

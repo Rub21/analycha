@@ -5,7 +5,7 @@ var config = require('./config');
 var argv = require('minimist')(process.argv.slice(2));
 var async = require('async');
 
-var url = config.api + 'changeset/' + argv.idchangest + '/download';
+var url = config.api + 'changeset/' + argv.idchangeset + '/download';
 
 async.waterfall([
 	function(callback) {
@@ -15,7 +15,7 @@ async.waterfall([
 		history(json, callback);
 	},
 	function(json, callback) {
-		analize(json, argv.idchangest, callback)
+		analize(json, argv.idchangeset, callback)
 	}
 ], function(err, result) {
 	console.log("done")
