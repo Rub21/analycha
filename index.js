@@ -30,8 +30,8 @@ function init() {
 	});
 }
 
-
-crontab.scheduleJob("*/1 * * * *", function() { //This will call this function every 2 minutes 
-	console.log("================================================")
-	init();
-});
+init();
+// crontab.scheduleJob("*/1 * * * *", function() { //This will call this function every 2 minutes 
+// 	console.log("================================================")
+// 	init();
+// });
