@@ -1,4 +1,6 @@
+var status = require('./status');
 var changeset = require('./changeset');
+var team = require('./team');
 var history = require('./history');
 var analize = require('./analize');
 var config = require('./config');
@@ -12,12 +14,13 @@ var url = 'http://overpass-api.de/api/augmented_diff';
 function init() {
 	async.waterfall([
 		function(callback) {
-			changeset(url, callback);
+			status(callback);
 		},
-
-		function(json, callback) {
-			console.log(JSON.stringify(json));
-			callback();
+		function(id, callback) {
+			changeset(id, callback);
+		},
+		function(id, json, callback) {
+			team(id, json, callback);
 		}
 		// function(json, callback) {
 		// 	analize(json, argv.idchangeset, callback)
