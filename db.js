@@ -15,7 +15,7 @@ module.exports = {
 	insertUser: function(user) {
 		dbConn.collection(myCollection).insert(user, function(err, recs) {
 			if (err) throw err;
-			console.log("Successfully inserted the user into database");
+			//console.log("Successfully inserted the user into database");
 		});
 	},
 
@@ -23,7 +23,7 @@ module.exports = {
 		dbConn.collection(myCollection).find({}, {}, {}).toArray(
 			function(err, docs) {
 				for (index in docs) {
-					console.log(docs[index]);
+					//console.log(docs[index]);
 				}
 			}
 		);
@@ -34,7 +34,7 @@ module.exports = {
 			"isbn": id
 		}, user, function(err, recs) {
 			if (err) throw err;
-			console.log("Successfully updated the user");
+			//console.log("Successfully updated the user");
 		});
 	},
 
@@ -43,14 +43,14 @@ module.exports = {
 			"isbn": id
 		}, function(err, recs) {
 			if (err) throw err;
-			console.log("Successfully deleted the user");
+			//console.log("Successfully deleted the user");
 		});
 	},
 	InsertUsers: function(arr) {
 		_.each(arr, function(val) {
 			dbConn.collection(myCollection).insert(val, function(err, recs) {
 				if (err) throw err;
-				console.log("Successfully inserted the user into database");
+				//console.log("Successfully inserted the user into database");
 			});
 		});
 	}

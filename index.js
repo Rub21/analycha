@@ -32,8 +32,6 @@ server.listen(3000, function() {
 	console.log("Started on PORT 3000");
 })
 
-
-
 function init() {
 	async.waterfall([
 		function(callback) {
@@ -50,9 +48,9 @@ function init() {
 			}
 		},
 		function(users, callback) {
-			console.log(users);
+			//console.log(users);
 			db.InsertUsers(users);
-			db.listUsers();
+			//db.listUsers();
 			callback();
 		}
 		// function(json, callback) {

@@ -2,6 +2,7 @@ var _ = require('underscore');
 var async = require('async');
 var config = require('./config');
 var fs = require('fs');
+var path = require('path');
 var turf = require('turf');
 
 module.exports = function(id, json, cb) {
@@ -62,7 +63,8 @@ module.exports = function(id, json, cb) {
 				linestring_old.properties.id = v.old.way.id;
 				linestring_old.properties.version = v.old.way.version;
 				linestring_old.properties.timestamp = v.old.way.timestamp;
-				linestring_old.properties.type = v.type;
+				linestring_old.properties.type = "old";
+				//linestring_old.properties.type = v.type;
 
 				if (changesets[v.new.way.changeset] === undefined) {
 					var change = turf.featurecollection([linestring_new, linestring_old]);
@@ -189,18 +191,37 @@ module.exports = function(id, json, cb) {
 	var array_users = [];
 
 	_.each(changesets, function(val, key) {
+		//USER
 		//if (config.users.indexOf(val.user) > 0) {
-			array_changesets.push(val);
-			var info = {
-				"changeset": val.changeset,
-				"uid": val.uid,
-				"user": val.user,
-				"num_delete": val.num_delete,
-				"timestamp": val.timestamp
-			};
+		array_changesets.push(val);
+		var info = {
+			"changeset": val.changeset,
+			"uid": val.uid,
+			"user": val.user,
+			"num_delete": val.num_delete,
+			"timestamp": val.timestamp
+		};
+		array_users.push(info);
 
-			array_users.push(info);
-			fs.writeFile('public/changeset_files/' + key + '.json', JSON.stringify(val));
+		//Rub21
+		if (val.user == "RichRico") {
+			console.log("=============================================================================================")
+		}
+		//FILE
+		var file = 'public/changeset_files/' + key + '.json';
+
+		if (path.existsSync(file)) {
+			console.log("Exist : " + file);
+			fs.readFile(file, 'utf8', function(err, data) {
+				if (err) throw err;
+				var obj = JSON.parse(data);
+				obj.features.concat(val.features);
+				fs.writeFile(file, JSON.stringify(obj));
+			});
+		}
+
+		fs.writeFile(file, JSON.stringify(val));
+
 		//}
 	});
 
