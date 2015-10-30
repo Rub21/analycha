@@ -77,7 +77,6 @@ module.exports = function(obj, id_changeset, cb) {
 	console.log("\n\nNumber of nodes were updated at same distance");
 	console.log("=============================================\n");
 	console.log(c_nodes.reverse());
-
 	//console.log(arr)
 	cb();
 

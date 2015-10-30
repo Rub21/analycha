@@ -15,6 +15,11 @@
   <body>
     <div id='map' class='loading'></div>
     <script>
+    var colors={
+      "create":"#04ff00",
+      "modify":"#0043ff",
+      "delete":"#ff0000"
+    };
     L.mapbox.accessToken = 'pk.eyJ1IjoicnViZW4iLCJhIjoiYlBrdkpRWSJ9.JgDDxJkvDn3us36aGzR6vg';
     var map = L.mapbox.map('map', 'ruben.ea0f35c8');
     var getJSON = function(url) {
@@ -33,14 +38,22 @@
         xhr.send();
       });
     };
-    getJSON(document.URL.split("?json=")[1]).then(function(data) {
+
+
+console.log("http://localhost:3000/changeset_files/"+document.URL.split("?idchangeset=")[1]+".json")
+    getJSON("/changeset_files/"+document.URL.split("?idchangeset=")[1]+".json").then(function(data) {
+      console.log(data);
       L.geoJson(data, {
         pointToLayer: function(feature, latlon) {
+          
           return L.circleMarker(latlon, {
             radius: 2,
-            color: feature.properties.color
+            color:colors[feature.properties.type]
           });
         },
+
+
+
         onEachFeature: function(feature, layer) {
           if (feature.properties.distance !== undefined) {
             layer.bindPopup("Id : " + feature.properties.id + "<br> Version : " + feature.properties.version + "<br> Distance :" + feature.properties.distance);
